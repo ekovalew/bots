@@ -46,7 +46,6 @@ def main():
                                      text=f"Преподаватель проверил работу [{lesson}]({url})!\n Преподавателю все понравилось, можно приступать к следующему уроку",
                                      parse_mode='Markdown')
         except Exception as e:
-            print('Ошибка при подключении: ' + str(e))
             logging.error(f'{str(e)}')
             break
         except requests.exceptions.ReadTimeout:
