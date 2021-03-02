@@ -2,7 +2,7 @@
 Скрипт отправляет уведомления в чат-бот Telegram о проверке работы на сайте devman.org.
 
 # Установка
-`(venv) > pip install bot_notify`
+`(venv) > pip install notify_bot`
 
 # Использование
 Перед использованием необходимо:
