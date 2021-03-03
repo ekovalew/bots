@@ -20,7 +20,7 @@ def main():
 
     while True:
         try:
-            response = requests.get("https://dvmn.org/api/long_polling1/", headers=header, params=param)
+            response = requests.get("https://dvmn.org/api/long_polling/", headers=header, params=param)
             response.raise_for_status()
             response_dec = response.json()
             status = response_dec['status']
