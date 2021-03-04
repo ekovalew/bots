@@ -48,8 +48,10 @@ def main():
             logger.exception('Ошибка')
             break
         except requests.exceptions.ReadTimeout:
+            break
+        except requests.exceptions.ConnectionError:
             logger.exception('Ошибка')
-            time.sleep(2)
+            time.sleep(5)
             continue
 
 
