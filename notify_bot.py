@@ -8,7 +8,7 @@ import time
 logger = logging.getLogger(__file__)
 
 def main():
-    logging.basicConfig(filename="sample.log", level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)
     load_dotenv(find_dotenv())
     token = os.environ['TOKEN']
     chat_id = os.environ['CHAT_ID']
@@ -16,6 +16,7 @@ def main():
     token_dvmn = os.environ['TOKEN_DEVMAN']
     header = {'Authorization': token_dvmn}
     param = {}
+    logger.info('Бот запустился')
 
     while True:
         try:
