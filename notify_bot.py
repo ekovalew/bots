@@ -10,10 +10,10 @@ logger = logging.getLogger(__file__)
 def main():
     logging.basicConfig(filename="sample.log", level=logging.INFO)
     load_dotenv(find_dotenv())
-    token = os.getenv("TOKEN")
-    chat_id = os.getenv("CHAT_ID")
+    token = os.environ['TOKEN']
+    chat_id = os.environ['CHAT_ID']
     bot = telebot.TeleBot(token);
-    token_dvmn = os.getenv("TOKEN_DEVMAN")
+    token_dvmn = os.environ['TOKEN_DEVMAN']
     header = {'Authorization': token_dvmn}
     param = {}
 
