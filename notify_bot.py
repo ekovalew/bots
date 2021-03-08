@@ -4,20 +4,20 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import logging
 import time
-from logging import Handler, LogRecord
-from logging import StreamHandler, Formatter
 
 logger = logging.getLogger(__file__)
-
 
 def main():
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
     logger.info("Бот запустился")
 
+    load_dotenv(find_dotenv())
+    token = os.environ['TOKEN']
+    bot = telebot.TeleBot(token)
+
     token_dvmn = os.environ['TOKEN_DEVMAN']
     header = {'Authorization': token_dvmn}
-    chat_id = os.getenv('CHAT_ID')
     param = {}
     while True:
         try:
@@ -47,26 +47,26 @@ def main():
                                      parse_mode='Markdown')
         except requests.exceptions.HTTPError:
             logger.exception('Ошибка')
-            time.sleep(10)
+            time.sleep(60)
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
             logger.exception('Ошибка')
-            time.sleep(10)
+            time.sleep(30)
         except:
             logger.exception('Ошибка')
-            time.sleep(10)
+            time.sleep(60)
 
 if __name__ == '__main__':
     load_dotenv(find_dotenv())
-    token = os.environ['TOKEN']
+    token_logger = os.environ['TOKEN_LOGGER']
     chat_id = os.environ['CHAT_ID']
-    bot = telebot.TeleBot(token)
+    bot_logger = telebot.TeleBot(token_logger)
 
     class MyLogsHandler(logging.Handler):
         def emit(self, record):
             log_entry = self.format(record)
-            bot.send_message(
+            bot_logger.send_message(
                 chat_id,
                 log_entry
             )
