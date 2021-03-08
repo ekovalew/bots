@@ -53,9 +53,6 @@ def main():
         except requests.exceptions.ConnectionError:
             logger.exception('Ошибка')
             time.sleep(30)
-        except:
-            logger.exception('Ошибка')
-            time.sleep(60)
 
 if __name__ == '__main__':
     load_dotenv(find_dotenv())
