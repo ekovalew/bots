@@ -4,20 +4,21 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import logging
 import time
+from logging import Handler, LogRecord
+from logging import StreamHandler, Formatter
 
 logger = logging.getLogger(__file__)
 
+
 def main():
-    logging.basicConfig(level=logging.INFO)
-    load_dotenv(find_dotenv())
-    token = os.environ['TOKEN']
-    chat_id = os.environ['CHAT_ID']
-    bot = telebot.TeleBot(token);
+    logger.setLevel(logging.INFO)
+    logger.addHandler(MyLogsHandler())
+    logger.info("Бот запустился")
+
     token_dvmn = os.environ['TOKEN_DEVMAN']
     header = {'Authorization': token_dvmn}
+    chat_id = os.getenv('CHAT_ID')
     param = {}
-    logger.info('Бот запустился')
-
     while True:
         try:
             response = requests.get("https://dvmn.org/api/long_polling/", headers=header, params=param)
@@ -46,14 +47,28 @@ def main():
                                      parse_mode='Markdown')
         except requests.exceptions.HTTPError:
             logger.exception('Ошибка')
-            time.sleep(5)
-            continue
+            time.sleep(10)
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError:
             logger.exception('Ошибка')
-            time.sleep(5)
-            continue
+            time.sleep(10)
+        except:
+            logger.exception('Ошибка')
+            time.sleep(10)
 
 if __name__ == '__main__':
+    load_dotenv(find_dotenv())
+    token = os.environ['TOKEN']
+    chat_id = os.environ['CHAT_ID']
+    bot = telebot.TeleBot(token)
+
+    class MyLogsHandler(logging.Handler):
+        def emit(self, record):
+            log_entry = self.format(record)
+            bot.send_message(
+                chat_id,
+                log_entry
+            )
+
     main()
