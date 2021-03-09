@@ -8,6 +8,19 @@ import time
 logger = logging.getLogger(__file__)
 
 def main():
+    load_dotenv(find_dotenv())
+    token_logger = os.environ['TOKEN_LOGGER']
+    chat_id = os.environ['CHAT_ID']
+    bot_logger = telebot.TeleBot(token_logger)
+
+    class MyLogsHandler(logging.Handler):
+        def emit(self, record):
+            log_entry = self.format(record)
+            bot_logger.send_message(
+                chat_id,
+                log_entry
+            )
+
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
     logger.info("Бот запустился")
@@ -55,17 +68,4 @@ def main():
             time.sleep(30)
 
 if __name__ == '__main__':
-    load_dotenv(find_dotenv())
-    token_logger = os.environ['TOKEN_LOGGER']
-    chat_id = os.environ['CHAT_ID']
-    bot_logger = telebot.TeleBot(token_logger)
-
-    class MyLogsHandler(logging.Handler):
-        def emit(self, record):
-            log_entry = self.format(record)
-            bot_logger.send_message(
-                chat_id,
-                log_entry
-            )
-
     main()
